@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1027771625631",
+    "firebase_url": "https://ekart-6d735-default-rtdb.firebaseio.com",
+    "project_id": "ekart-6d735",
+    "storage_bucket": "ekart-6d735.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027771625631:android:a778b9e33ca6e0f6bcf2aa",
+        "android_client_info": {
+          "package_name": "com.dhruva.shopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027771625631-4lctst826ut8dso42027sl1ehcclhc94.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtsZCLMtr9lbuMn6VbYEMxmxfErN7dl9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027771625631-4lctst826ut8dso42027sl1ehcclhc94.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
