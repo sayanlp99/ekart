@@ -50,6 +50,7 @@ public class CartActivity extends AppCompatActivity{
     private int overTotalPrice=0;
     private RadioGroup shippingPriorityGroup;
     private String deliveryOption;
+    private String finalDate;
     final Calendar myCalendar= Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +112,7 @@ public class CartActivity extends AppCompatActivity{
                     Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
                     intent.putExtra("Total Price", String.valueOf(overTotalPrice));
                     intent.putExtra("Shipping priority", deliveryOption);
-                    intent.putExtra("Shipping Date", datePicker.getText());
+                    intent.putExtra("Shipping Date", finalDate);
                     startActivity(intent);
                     finish();
                 }
@@ -127,7 +128,6 @@ public class CartActivity extends AppCompatActivity{
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-
                 updateLabel();
             }
         };
@@ -146,8 +146,10 @@ public class CartActivity extends AppCompatActivity{
     }
 
     private void updateLabel(){
-        String myFormat="dd/MM/yyyy";
+        String myFormat="MMM dd yyyy";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+        finalDate = dateFormat.format(myCalendar.getTime());
+        System.out.println("Shipping Time: "+dateFormat.format(myCalendar.getTime()));
         datePicker.setText(dateFormat.format(myCalendar.getTime()));
     }
 

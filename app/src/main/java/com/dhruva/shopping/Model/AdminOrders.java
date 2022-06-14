@@ -1,12 +1,12 @@
 package com.dhruva.shopping.Model;
 
 public class AdminOrders {
-    private String name,phone,address,city,state,date,time,totalAmount;
+    private String name,phone,address,city,state,date,time,shippingPriority,shippingDate,totalAmount;
 
     public AdminOrders() {
     }
 
-    public AdminOrders(String name, String phone, String address, String city, String state, String date, String time, String totalAmount) {
+    public AdminOrders(String name, String phone, String address, String city, String state, String date, String time, String shippingPriority, String shippingDate, String totalAmount) {
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -14,6 +14,8 @@ public class AdminOrders {
         this.state = state;
         this.date = date;
         this.time = time;
+        this.shippingPriority = shippingPriority;
+        this.shippingDate = shippingDate;
         this.totalAmount = totalAmount;
     }
 
@@ -79,5 +81,21 @@ public class AdminOrders {
 
     public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getShippingPriority() {
+        return shippingPriority;
+    }
+
+    public void setShippingPriority(String shippingPriority) {
+        this.shippingPriority = shippingPriority;
+    }
+
+    public String getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(String shippingDate) {
+        this.shippingDate = shippingDate;
     }
 }

@@ -47,16 +47,34 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                 new FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, final int position, @NonNull final AdminOrders model) {
-
+                        String order = "Deliver by ";
+                        switch(model.getShippingPriority()){
+                            case "1":
+                                order += model.getShippingDate();
+                                break;
+                            case "2":
+                                order += "5 days";
+                                break;
+                            case "3":
+                                order += "7 days";
+                                break;
+                            case "4":
+                                order += "10 days";
+                                break;
+                            case "5":
+                                order += "15 days";
+                                break;
+                        }
                         holder.userName.setText("Name: "+model.getName());
                         holder.userPhoneNumber.setText("Name: "+model.getPhone());
-                        holder.userTotalPrice.setText("Total Ammount = Rs."+model.getTotalAmount());
+                        holder.userTotalPrice.setText("Total Amount = Rs."+model.getTotalAmount());
                         holder.userDateTime.setText("Order at: "+model.getDate()+" "+ model.getTime());
                         holder.userShippingAddress.setText("Shipping Address: "+model.getAddress()+", "+model.getCity());
+                        holder.userOrderPriority.setText(order);
                         holder.showOrdersBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String uID = getRef(position).getKey();
+                                String uID = getRef(holder.getAdapterPosition()).getKey();
                                 Intent intent = new Intent(AdminNewOrdersActivity.this,AdminUserProductsActivity.class);
                                 intent.putExtra("uid",uID);
                                 startActivity(intent);
@@ -79,7 +97,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         if (i==0){
-                                            String uID = getRef(position).getKey();
+                                            String uID = getRef(holder.getAdapterPosition()).getKey();
                                             RemoverOrder(uID);
 
                                         }
@@ -111,7 +129,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
 
     public static class AdminOrdersViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView userName, userPhoneNumber,userTotalPrice,userDateTime,userShippingAddress;
+        public TextView userName, userPhoneNumber,userTotalPrice,userDateTime,userShippingAddress, userOrderPriority;
         public Button showOrdersBtn;
         public AdminOrdersViewHolder(View itemView) {
             super(itemView);
@@ -120,6 +138,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
             userTotalPrice = itemView.findViewById(R.id.order_total_price);
             userDateTime = itemView.findViewById(R.id.order_date_time);
             userShippingAddress = itemView.findViewById(R.id.order_address_city);
+            userOrderPriority = itemView.findViewById(R.id.order_priority);
             showOrdersBtn = itemView.findViewById(R.id.show_all_product_btn);
         }
     }
