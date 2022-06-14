@@ -1,5 +1,7 @@
 package com.dhruva.shopping;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -9,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +37,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class CartActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private Button NextProcessBtn;
     private TextView txtTotalAmount, txtMsg1;
+    private EditText datePicker;
     private int overTotalPrice=0;
+    private RadioGroup shippingPriorityGroup;
+    private String deliveryOption;
+    final Calendar myCalendar= Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +62,93 @@ public class CartActivity extends AppCompatActivity{
         NextProcessBtn = (Button)findViewById(R.id.next_btn);
         txtTotalAmount = (TextView)findViewById(R.id.total_price);
         txtMsg1 = (TextView)findViewById(R.id.msg1);
+        shippingPriorityGroup = (RadioGroup)findViewById(R.id.shipping_priority_group);
+        datePicker=(EditText) findViewById(R.id.priority_shipment_date_picker);
+        shippingPriorityGroup.clearCheck();
+        shippingPriorityGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId){
+                switch(checkedId){
+                    case R.id.shipping_priority_option2:
+                        deliveryOption = "2";
+                        break;
+                    case R.id.shipping_priority_option3:
+                        deliveryOption = "3";
+                        break;
+                    case R.id.shipping_priority_option4:
+                        deliveryOption = "4";
+                        break;
+                    case R.id.shipping_priority_option5:
+                        deliveryOption = "5";
+                        break;
+                }
+                datePicker.getText().clear();
+            }
+        });
         NextProcessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txtTotalAmount.setText("Total Price = Rs."+String.valueOf(overTotalPrice));
-                Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
-                intent.putExtra("Total Price", String.valueOf(overTotalPrice));
-                startActivity(intent);
-                finish();
+                if (!shippingPriorityGroup.isSelected()){
+                    switch (deliveryOption){
+                        case "1":
+                            overTotalPrice = overTotalPrice + 80;
+                            break;
+                        case "2":
+                            overTotalPrice = overTotalPrice + 50;
+                            break;
+                        case "3":
+                            overTotalPrice = overTotalPrice + 30;
+                            break;
+                        case "4":
+                            overTotalPrice = overTotalPrice + 20;
+                            break;
+                        case "5":
+                            overTotalPrice = overTotalPrice + 10;
+                            break;
+                    }
+                    txtTotalAmount.setText("Total Price = Rs."+String.valueOf(overTotalPrice));
+                    Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
+                    intent.putExtra("Total Price", String.valueOf(overTotalPrice));
+                    intent.putExtra("Shipping priority", deliveryOption);
+                    intent.putExtra("Shipping Date", datePicker.getText());
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(CartActivity.this,"Select Delivery Options",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH,month);
+                myCalendar.set(Calendar.DAY_OF_MONTH,day);
 
+                updateLabel();
+            }
+        };
+        long now = myCalendar.getTimeInMillis();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(CartActivity.this,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(now + (86400000));
+        datePickerDialog.getDatePicker().setMaxDate(now + (86400000*5));
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shippingPriorityGroup.clearCheck();
+                deliveryOption = "1";
+                datePickerDialog.show();
+            }
+        });
+    }
+
+    private void updateLabel(){
+        String myFormat="dd/MM/yyyy";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+        datePicker.setText(dateFormat.format(myCalendar.getTime()));
     }
 
     @Override

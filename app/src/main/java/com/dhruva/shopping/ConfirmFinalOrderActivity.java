@@ -31,12 +31,16 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
     private EditText nameEditText,phoneEditText,addressEditText,pinCodeEditText,cityEditText;
     private Button confirmOrderBtn;
     private String totalAmount = "";
+    private String shippingPriority = "";
+    private String shippingDate = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_final_order);
 
         totalAmount = getIntent().getStringExtra("Total Price");
+        shippingPriority = getIntent().getStringExtra("Shipping priority");
+        shippingDate = getIntent().getStringExtra("Shipping Date");
         Toast.makeText(this, "Total Price = Rs. "+totalAmount,Toast.LENGTH_SHORT).show();
         confirmOrderBtn = (Button) findViewById(R.id.confirm_final_order_btn);
         nameEditText =(EditText) findViewById(R.id.shippment_name);
@@ -89,6 +93,8 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                 .child(Prevalent.currentOnlineUser.getPhone());
         HashMap<String, Object> ordersMap = new HashMap<>();
         ordersMap.put("totalAmount",totalAmount);
+        ordersMap.put("shippingPriority",shippingPriority);
+        ordersMap.put("shippingDate",shippingDate);
         ordersMap.put("name",nameEditText.getText().toString());
         ordersMap.put("phone",phoneEditText.getText().toString());
         ordersMap.put("address",addressEditText.getText().toString());

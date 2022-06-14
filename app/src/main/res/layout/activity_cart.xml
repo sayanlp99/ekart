@@ -37,13 +37,86 @@
         android:textSize="20dp"
         android:visibility="gone"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cart_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/r111"
         android:layout_above="@+id/next_btn"
-        ></androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/r111" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/next_btn"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:id="@+id/priority_shipment_date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="Select custom date"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/priority_shipment_date_picker"
+                android:text=" + Rs.80/-"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/priority_shipment_date_picker"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <RadioGroup
+            android:id="@+id/shipping_priority_group"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            >
+
+            <RadioButton
+                android:id="@+id/shipping_priority_option2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Within 5 days + Rs.50/-"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/shipping_priority_option3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Within 7 days + Rs.30/-"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/shipping_priority_option4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Within 10 days + Rs.20/-"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/shipping_priority_option5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Within 15 days + Rs.10/-"
+                android:textSize="20dp" />
+        </RadioGroup>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/next_btn"
