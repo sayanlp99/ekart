@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
-    private Button joinNowButton, loginButton;
+    private Button joinNowButton, loginButton, joinLaterButton;
     private ProgressDialog loadingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         joinNowButton = (Button) findViewById(R.id.main_join_now_btn);
         loginButton = (Button) findViewById(R.id.main_login_btn);
+        joinLaterButton = (Button) findViewById(R.id.join_later_button);
         loadingBar = new ProgressDialog(this);
         Paper.init(this);
-
+        joinLaterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AllowAccess("anonymous", "anonym");
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

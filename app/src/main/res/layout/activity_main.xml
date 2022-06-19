@@ -28,12 +28,12 @@
         android:textSize="20sp"
         android:textStyle="bold|italic"
         />
+
     <Button
-        android:id="@+id/main_login_btn"
+        android:id="@+id/join_later_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -41,24 +41,38 @@
         android:padding="15dp"
         android:textAllCaps="false"
         android:textSize="13sp"
-        android:text="Already have an Account? Login"
+        android:text="Join Later"
         android:textColor="@android:color/white"
         />
+
+    <Button
+        android:id="@+id/main_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/join_later_button"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/buttons"
+        android:padding="15dp"
+        android:text="Already have an Account? Login"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
 
     <Button
         android:id="@+id/main_join_now_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/main_login_btn"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/input_design"
         android:padding="10dp"
-        android:textAllCaps="false"
-        android:textSize="18sp"
         android:text="Join Now"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
-        />
+        android:textSize="18sp" />
 
 </RelativeLayout>
