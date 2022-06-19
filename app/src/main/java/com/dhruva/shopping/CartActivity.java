@@ -90,7 +90,7 @@ public class CartActivity extends AppCompatActivity{
         NextProcessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!shippingPriorityGroup.isSelected()){
+                if (shippingPriorityGroup.isSelected() || datePicker.getText().length() != 0){
                     switch (deliveryOption){
                         case "1":
                             overTotalPrice = overTotalPrice + 80;
