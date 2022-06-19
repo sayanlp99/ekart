@@ -240,7 +240,7 @@ public class CartActivity extends AppCompatActivity{
                         recyclerView.setVisibility(View.GONE);
                         txtMsg1.setVisibility(View.VISIBLE);
                         txtMsg1.setText("Congratulations, Your Final order has been shipped successfully. Soon you will received your order at your door step.");
-                        NextProcessBtn.setVisibility(View.GONE);
+                        NextProcessBtn.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
                     }
                     else if (shippingState.equals("Not Shipped")){
@@ -248,7 +248,7 @@ public class CartActivity extends AppCompatActivity{
                         recyclerView.setVisibility(View.GONE);
                         txtMsg1.setVisibility(View.VISIBLE);
 
-                        NextProcessBtn.setVisibility(View.GONE);
+                        NextProcessBtn.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
                     }
                 }
