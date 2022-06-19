@@ -51,11 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Please write your name...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(phone) && phone.length() != 10)
+        else if (TextUtils.isEmpty(phone) || phone.length() != 10)
         {
             Toast.makeText(this, "Please check phone number", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(password) && password.length() < 8)
+        else if (TextUtils.isEmpty(password) || password.length() < 8)
         {
             Toast.makeText(this, "Please enter password greater than 8 characters", Toast.LENGTH_SHORT).show();
         }
