@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class CartActivity extends AppCompatActivity{
+    private LinearLayout shippingPriorityLayout;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private Button NextProcessBtn;
@@ -56,6 +58,7 @@ public class CartActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        shippingPriorityLayout = findViewById(R.id.shipping_priority_layout);
         recyclerView = findViewById(R.id.cart_list);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -241,12 +244,14 @@ public class CartActivity extends AppCompatActivity{
                         txtMsg1.setVisibility(View.VISIBLE);
                         txtMsg1.setText("Congratulations, Your Final order has been shipped successfully. Soon you will received your order at your door step.");
                         NextProcessBtn.setVisibility(View.INVISIBLE);
+                        shippingPriorityLayout.setVisibility(View.GONE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
                     }
                     else if (shippingState.equals("Not Shipped")){
                         txtTotalAmount.setText("Shipping State = Not Shipped");
                         recyclerView.setVisibility(View.GONE);
                         txtMsg1.setVisibility(View.VISIBLE);
+                        shippingPriorityLayout.setVisibility(View.GONE);
 
                         NextProcessBtn.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
