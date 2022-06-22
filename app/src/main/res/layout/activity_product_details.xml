@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:scaleType="centerCrop"
-        />
+        android:contentDescription="TODO" />
     <TextView
         android:id="@+id/product_name_details"
         android:layout_width="match_parent"

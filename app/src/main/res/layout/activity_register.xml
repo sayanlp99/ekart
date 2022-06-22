@@ -13,7 +13,8 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:src="@drawable/aaaaa" />
+        android:src="@drawable/aaaaa"
+        android:contentDescription="TODO" />
 
     <EditText
         android:id="@+id/register_username_input"

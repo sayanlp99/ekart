@@ -13,7 +13,8 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:src="@drawable/aaaaa" />
+        android:src="@drawable/aaaaa"
+        android:contentDescription="TODO" />
     <EditText
         android:id="@+id/login_phone_number_input"
         android:layout_width="match_parent"
