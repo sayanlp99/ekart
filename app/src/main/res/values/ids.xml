@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="shipping_priority_layout" type="id" />
+    <item name="order_phone_number" type="id" />
+</resources>
