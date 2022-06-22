@@ -46,7 +46,6 @@
         android:layout_below="@+id/r111" />
 
     <LinearLayout
-        android:id="@+id/shipping_priority_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/next_btn"

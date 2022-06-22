@@ -12,7 +12,7 @@ public class LocalOrdersHolder extends RecyclerView.ViewHolder {
     public LocalOrdersHolder(View itemView)
     {
         super(itemView);
-        txtPinCode = (TextView) itemView.findViewById(R.id.pincode_text);
-        txtCount = (TextView) itemView.findViewById(R.id.pincode_count_text);
+        txtPinCode = itemView.findViewById(R.id.pincode_text);
+        txtCount = itemView.findViewById(R.id.pincode_count_text);
     }
 }

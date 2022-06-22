@@ -1,5 +1,6 @@
 package com.dhruva.shopping;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -46,34 +47,17 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, final int position, @NonNull final AdminOrders model) {
-                        String order = "Deliver by ";
-                        switch(model.getShippingPriority()){
-                            case "1":
-                                order += model.getShippingDate();
-                                break;
-                            case "2":
-                                order += "5 days";
-                                break;
-                            case "3":
-                                order += "7 days";
-                                break;
-                            case "4":
-                                order += "10 days";
-                                break;
-                            case "5":
-                                order += "15 days";
-                                break;
-                        }
+                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, @SuppressLint("RecyclerView") final int position, @NonNull final AdminOrders model) {
+
                         holder.userName.setText("Name: "+model.getName());
-                        holder.userTotalPrice.setText("Total Amount = Rs."+model.getTotalAmount());
+                        holder.userPhoneNumber.setText("Name: "+model.getPhone());
+                        holder.userTotalPrice.setText("Total Ammount = Rs."+model.getTotalAmount());
                         holder.userDateTime.setText("Order at: "+model.getDate()+" "+ model.getTime());
                         holder.userShippingAddress.setText("Shipping Address: "+model.getAddress()+", "+model.getCity());
-                        holder.userOrderPriority.setText(order);
                         holder.showOrdersBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String uID = getRef(holder.getAdapterPosition()).getKey();
+                                String uID = getRef(position).getKey();
                                 Intent intent = new Intent(AdminNewOrdersActivity.this,AdminUserProductsActivity.class);
                                 intent.putExtra("uid",uID);
                                 startActivity(intent);
@@ -84,7 +68,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
 
-                                CharSequence options[] =new CharSequence[]{
+                                CharSequence[] options =new CharSequence[]{
                                         "Yes",
                                         "No"
 
@@ -96,7 +80,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         if (i==0){
-                                            String uID = getRef(holder.getAdapterPosition()).getKey();
+                                            String uID = getRef(position).getKey();
                                             RemoverOrder(uID);
 
                                         }
@@ -128,15 +112,15 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
 
     public static class AdminOrdersViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView userName, userPhoneNumber,userTotalPrice,userDateTime,userShippingAddress, userOrderPriority;
+        public TextView userName, userPhoneNumber,userTotalPrice,userDateTime,userShippingAddress;
         public Button showOrdersBtn;
         public AdminOrdersViewHolder(View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.order_user_name);
+            userPhoneNumber = itemView.findViewById(R.id.order_phone_number);
             userTotalPrice = itemView.findViewById(R.id.order_total_price);
             userDateTime = itemView.findViewById(R.id.order_date_time);
             userShippingAddress = itemView.findViewById(R.id.order_address_city);
-            userOrderPriority = itemView.findViewById(R.id.order_priority);
             showOrdersBtn = itemView.findViewById(R.id.show_all_product_btn);
         }
     }

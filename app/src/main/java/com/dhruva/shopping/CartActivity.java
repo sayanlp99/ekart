@@ -63,11 +63,11 @@ public class CartActivity extends AppCompatActivity{
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        NextProcessBtn = (Button)findViewById(R.id.next_btn);
-        txtTotalAmount = (TextView)findViewById(R.id.total_price);
-        txtMsg1 = (TextView)findViewById(R.id.msg1);
-        shippingPriorityGroup = (RadioGroup)findViewById(R.id.shipping_priority_group);
-        datePicker=(EditText) findViewById(R.id.priority_shipment_date_picker);
+        NextProcessBtn = findViewById(R.id.next_btn);
+        txtTotalAmount = findViewById(R.id.total_price);
+        txtMsg1 = findViewById(R.id.msg1);
+        shippingPriorityGroup = findViewById(R.id.shipping_priority_group);
+        datePicker= findViewById(R.id.priority_shipment_date_picker);
         shippingPriorityGroup.clearCheck();
         shippingPriorityGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @SuppressLint("NonConstantResourceId")
@@ -111,7 +111,7 @@ public class CartActivity extends AppCompatActivity{
                             overTotalPrice = overTotalPrice + 10;
                             break;
                     }
-                    txtTotalAmount.setText("Total Price = Rs."+String.valueOf(overTotalPrice));
+                    txtTotalAmount.setText("Total Price = Rs."+ overTotalPrice);
                     Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
                     intent.putExtra("Total Price", String.valueOf(overTotalPrice));
                     intent.putExtra("Shipping priority", deliveryOption);
@@ -178,7 +178,7 @@ public class CartActivity extends AppCompatActivity{
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        CharSequence options[] = new CharSequence[]
+                        CharSequence[] options = new CharSequence[]
                                 {
                                         "Edit",
                                         "Remove"

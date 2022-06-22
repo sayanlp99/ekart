@@ -20,7 +20,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category);
 
-        LogoutBtn = (Button) findViewById(R.id.admin_logout_btn);
+        LogoutBtn = findViewById(R.id.admin_logout_btn);
         LogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,7 +30,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
                 finish();
             }
         });
-        CheckOrdersBtn = (Button) findViewById(R.id.check_orders_btn);
+        CheckOrdersBtn = findViewById(R.id.check_orders_btn);
 
 
         CheckOrdersBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,20 +43,20 @@ public class AdminCategoryActivity extends AppCompatActivity {
 
 
 
-        tShirts = (ImageView) findViewById(R.id.t_shirts);
-        sportsTShirts = (ImageView) findViewById(R.id.sports_t_shirts);
-        femaleDresses = (ImageView) findViewById(R.id.female_dresses);
-        sweathers = (ImageView) findViewById(R.id.sweathers);
+        tShirts = findViewById(R.id.t_shirts);
+        sportsTShirts = findViewById(R.id.sports_t_shirts);
+        femaleDresses = findViewById(R.id.female_dresses);
+        sweathers = findViewById(R.id.sweathers);
 
-        glasses = (ImageView) findViewById(R.id.glasses);
-        hatsCaps = (ImageView) findViewById(R.id.hats_caps);
-        walletsBagsPurses = (ImageView) findViewById(R.id.purses_bags_wallets);
-        shoes = (ImageView) findViewById(R.id.shoes);
+        glasses = findViewById(R.id.glasses);
+        hatsCaps = findViewById(R.id.hats_caps);
+        walletsBagsPurses = findViewById(R.id.purses_bags_wallets);
+        shoes = findViewById(R.id.shoes);
 
-        headPhonesHandFree = (ImageView) findViewById(R.id.headphones_handfree);
-        Laptops = (ImageView) findViewById(R.id.laptop_pc);
-        watches = (ImageView) findViewById(R.id.watches);
-        mobilePhones = (ImageView) findViewById(R.id.mobilephones);
+        headPhonesHandFree = findViewById(R.id.headphones_handfree);
+        Laptops = findViewById(R.id.laptop_pc);
+        watches = findViewById(R.id.watches);
+        mobilePhones = findViewById(R.id.mobilephones);
 
 
         tShirts.setOnClickListener(new View.OnClickListener() {

@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        joinNowButton = (Button) findViewById(R.id.main_join_now_btn);
-        loginButton = (Button) findViewById(R.id.main_login_btn);
-        joinLaterButton = (Button) findViewById(R.id.join_later_button);
+        joinNowButton = findViewById(R.id.main_join_now_btn);
+        loginButton = findViewById(R.id.main_login_btn);
+        joinLaterButton = findViewById(R.id.join_later_button);
         loadingBar = new ProgressDialog(this);
         Paper.init(this);
         joinLaterButton.setOnClickListener(new View.OnClickListener() {
