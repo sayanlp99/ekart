@@ -54,44 +54,35 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                         holder.userTotalPrice.setText("Total Ammount = Rs."+model.getTotalAmount());
                         holder.userDateTime.setText("Order at: "+model.getDate()+" "+ model.getTime());
                         holder.userShippingAddress.setText("Shipping Address: "+model.getAddress()+", "+model.getCity());
-                        holder.showOrdersBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                String uID = getRef(position).getKey();
-                                Intent intent = new Intent(AdminNewOrdersActivity.this,AdminUserProductsActivity.class);
-                                intent.putExtra("uid",uID);
-                                startActivity(intent);
-                            }
+                        holder.showOrdersBtn.setOnClickListener(view -> {
+                            String uID = getRef(position).getKey();
+                            Intent intent = new Intent(AdminNewOrdersActivity.this,AdminUserProductsActivity.class);
+                            intent.putExtra("uid",uID);
+                            startActivity(intent);
                         });
 
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                        holder.itemView.setOnClickListener(view -> {
 
-                                CharSequence[] options =new CharSequence[]{
-                                        "Yes",
-                                        "No"
+                            CharSequence[] options1 =new CharSequence[]{
+                                    "Yes",
+                                    "No"
 
-                                };
+                            };
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(AdminNewOrdersActivity.this);
-                                builder.setTitle("Have you shipped this order products?");
-                                builder.setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        if (i==0){
-                                            String uID = getRef(position).getKey();
-                                            RemoverOrder(uID);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AdminNewOrdersActivity.this);
+                            builder.setTitle("Have you shipped this order products?");
+                            builder.setItems(options1, (dialogInterface, i) -> {
+                                if (i==0){
+                                    String uID = getRef(position).getKey();
+                                    RemoverOrder(uID);
 
-                                        }
-                                        else {
-                                            finish();
-                                        }
+                                }
+                                else {
+                                    finish();
+                                }
 
-                                    }
-                                });
-                                builder.show();
-                            }
+                            });
+                            builder.show();
                         });
 
                     }

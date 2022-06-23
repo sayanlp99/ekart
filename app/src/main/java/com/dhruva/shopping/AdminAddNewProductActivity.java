@@ -63,22 +63,10 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         loadingBar = new ProgressDialog(this);
 
 
-        InputProductImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                OpenGallery();
-            }
-        });
+        InputProductImage.setOnClickListener(view -> OpenGallery());
 
 
-        AddNewProductButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                ValidateProductData();
-            }
-        });
+        AddNewProductButton.setOnClickListener(view -> ValidateProductData());
     }
 
 
@@ -147,43 +135,29 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
 
         final UploadTask uploadTask = filePath.putFile(ImageUri);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                String message = e.toString();
-                Toast.makeText(AdminAddNewProductActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
-                loadingBar.dismiss();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AdminAddNewProductActivity.this, "Product Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful())
-                        {
-                            throw task.getException();
+        uploadTask.addOnFailureListener(e -> {
+            String message = e.toString();
+            Toast.makeText(AdminAddNewProductActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+            loadingBar.dismiss();
+        }).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(AdminAddNewProductActivity.this, "Product Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
+            Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
 
-                        }
+                }
 
-                        downloadImageUrl = filePath.getDownloadUrl().toString();
-                        return filePath.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful())
-                        {
-                            downloadImageUrl = task.getResult().toString();
+                downloadImageUrl = filePath.getDownloadUrl().toString();
+                return filePath.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    downloadImageUrl = task.getResult().toString();
 
-                            Toast.makeText(AdminAddNewProductActivity.this, "got the Product image Url Successfully...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminAddNewProductActivity.this, "got the Product image Url Successfully...", Toast.LENGTH_SHORT).show();
 
-                            SaveProductInfoToDatabase();
-                        }
-                    }
-                });
-            }
+                    SaveProductInfoToDatabase();
+                }
+            });
         });
 
     }
@@ -200,24 +174,20 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         productMap.put("pname", Pname);
 
         ProductsRef.child(productRandomKey).updateChildren(productMap)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
                     {
-                        if (task.isSuccessful())
-                        {
-                            Intent intent = new Intent(AdminAddNewProductActivity.this, AdminCategoryActivity.class);
-                            startActivity(intent);
+                        Intent intent = new Intent(AdminAddNewProductActivity.this, AdminCategoryActivity.class);
+                        startActivity(intent);
 
-                            loadingBar.dismiss();
-                            Toast.makeText(AdminAddNewProductActivity.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            loadingBar.dismiss();
-                            String message = task.getException().toString();
-                            Toast.makeText(AdminAddNewProductActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
-                        }
+                        loadingBar.dismiss();
+                        Toast.makeText(AdminAddNewProductActivity.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        loadingBar.dismiss();
+                        String message = task.getException().toString();
+                        Toast.makeText(AdminAddNewProductActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

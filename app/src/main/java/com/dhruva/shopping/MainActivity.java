@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,30 +36,18 @@ public class MainActivity extends AppCompatActivity {
         joinLaterButton = findViewById(R.id.join_later_button);
         loadingBar = new ProgressDialog(this);
         Paper.init(this);
-        joinLaterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AllowAccess("anonymous", "anonym");
-            }
+        joinLaterButton.setOnClickListener(view -> AllowAccess("anonymous", "anonym"));
+        loginButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, com.dhruva.shopping.LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        joinNowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        joinNowButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
         String UserPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
         String UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
-        if (UserPhoneKey != "" && UserPasswordKey != "")
+        if (!Objects.equals(UserPhoneKey, "") && !Objects.equals(UserPasswordKey, ""))
         {
             if (!TextUtils.isEmpty(UserPhoneKey)  &&  !TextUtils.isEmpty(UserPasswordKey))
             {
@@ -80,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.child("Users").child(phone).exists()){
 
                     Users usersData = dataSnapshot.child("Users").child(phone).getValue(Users.class);
-                    if (usersData.getPhone().equals(phone))
+                    if (Objects.requireNonNull(usersData).getPhone().equals(phone))
                     {
                         if (usersData.getPassword().equals(password))
                         {
@@ -105,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

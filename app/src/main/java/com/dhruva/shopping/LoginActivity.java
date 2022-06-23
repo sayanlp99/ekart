@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rey.material.widget.CheckBox;
+
+import java.util.Objects;
+
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,32 +46,19 @@ public class LoginActivity extends AppCompatActivity {
         loadingBar = new ProgressDialog(this);
         chkBoxRememberMe = findViewById(R.id.remember_me_chkb);
         Paper.init(this);
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginUser();
-            }
-        });
+        LoginButton.setOnClickListener(view -> LoginUser());
 
-        AdminLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                LoginButton.setText("Login Admin");
-                AdminLink.setVisibility(View.INVISIBLE);
-                NotAdminLink.setVisibility(View.VISIBLE);
-                parentDbName = "Admins";
-            }
+        AdminLink.setOnClickListener(view -> {
+            LoginButton.setText("Login Admin");
+            AdminLink.setVisibility(View.INVISIBLE);
+            NotAdminLink.setVisibility(View.VISIBLE);
+            parentDbName = "Admins";
         });
-        NotAdminLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                LoginButton.setText("Login");
-                AdminLink.setVisibility(View.VISIBLE);
-                NotAdminLink.setVisibility(View.INVISIBLE);
-                parentDbName = "Users";
-            }
+        NotAdminLink.setOnClickListener(view -> {
+            LoginButton.setText("Login");
+            AdminLink.setVisibility(View.VISIBLE);
+            NotAdminLink.setVisibility(View.INVISIBLE);
+            parentDbName = "Users";
         });
 
     }
@@ -112,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (dataSnapshot.child(parentDbName).child(phone).exists()){
 
                     Users usersData = dataSnapshot.child(parentDbName).child(phone).getValue(Users.class);
-                    if (usersData.getPhone().equals(phone))
+                    if (Objects.requireNonNull(usersData).getPhone().equals(phone))
                     {
                         if (usersData.getPassword().equals(password))
                         {
@@ -147,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

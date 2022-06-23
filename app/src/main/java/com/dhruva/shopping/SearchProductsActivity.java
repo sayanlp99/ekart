@@ -38,14 +38,11 @@ public class SearchProductsActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.search_btn);
         searchList = findViewById(R.id.search_list);
         searchList.setLayoutManager(new LinearLayoutManager(SearchProductsActivity.this));
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchInput = inputText.getText().toString();
-                onStart();
+        searchBtn.setOnClickListener(view -> {
+            searchInput = inputText.getText().toString();
+            onStart();
 
 
-            }
         });
 
 
@@ -66,13 +63,10 @@ public class SearchProductsActivity extends AppCompatActivity {
                         holder.txtProductDescription.setText(model.getDescription());
                         holder.txtProductPrice.setText("Price = " + model.getPrice() + "Rs.");
                         Picasso.get().load(model.getImage()).into(holder.imageView);
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent =new Intent(SearchProductsActivity.this,ProductDetailsActivity.class);
-                                intent.putExtra("pid",model.getPid());
-                                startActivity(intent);
-                            }
+                        holder.itemView.setOnClickListener(view -> {
+                            Intent intent =new Intent(SearchProductsActivity.this,ProductDetailsActivity.class);
+                            intent.putExtra("pid",model.getPid());
+                            startActivity(intent);
                         });
 
                     }

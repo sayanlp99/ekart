@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,39 +60,25 @@ public class SettinsActivity extends AppCompatActivity {
 
         userInfoDisplay(profileImageView, fullNameEditText, userPhoneEditText, addressEditText);
 
-        closeTextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
+        closeTextBtn.setOnClickListener(view -> finish());
+
+        saveTextButton.setOnClickListener(view -> {
+            if (checker.equals("clicked"))
             {
-                finish();
+                userInfoSaved();
+            }
+            else
+            {
+                updateOnlyUserInfo();
             }
         });
 
-        saveTextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if (checker.equals("clicked"))
-                {
-                    userInfoSaved();
-                }
-                else
-                {
-                    updateOnlyUserInfo();
-                }
-            }
-        });
+        profileChangeTextBtn.setOnClickListener(view -> {
+            checker = "clicked";
 
-        profileChangeTextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                checker = "clicked";
-
-                CropImage.activity(imageUri)
-                        .setAspectRatio(1, 1)
-                        .start(SettinsActivity.this);
-            }
+            CropImage.activity(imageUri)
+                    .setAspectRatio(1, 1)
+                    .start(SettinsActivity.this);
         });
     }
 
@@ -164,38 +151,32 @@ public class SettinsActivity extends AppCompatActivity {
                     .child(Prevalent.currentOnlineUser.getPhone() + ".jpg");
 
             uploadTask = fileRef.putFile(imageUri);
-            uploadTask.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful())
-                    {
-                        throw task.getException();
-                    }
-
-                    return fileRef.getDownloadUrl();
+            uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful())
+                {
+                    throw task.getException();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUrl = task.getResult();
-                        myUrl = downloadUrl.toString();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-                        HashMap<String, Object> userMap = new HashMap<>();
-                        userMap. put("name", fullNameEditText.getText().toString());
-                        userMap. put("address", addressEditText.getText().toString());
-                        userMap. put("phoneOrder", userPhoneEditText.getText().toString());
-                        userMap. put("image", myUrl);
-                        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
-                        progressDialog.dismiss();
-                        startActivity(new Intent(SettinsActivity.this, HomeActivity.class));
-                        Toast.makeText(SettinsActivity.this, "Profile Info update successfully.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                    else{
-                        progressDialog.dismiss();
-                        Toast.makeText(SettinsActivity.this, "Error.", Toast.LENGTH_SHORT).show();
-                    }
+
+                return fileRef.getDownloadUrl();
+            }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUrl = task.getResult();
+                    myUrl = downloadUrl.toString();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    HashMap<String, Object> userMap = new HashMap<>();
+                    userMap. put("name", fullNameEditText.getText().toString());
+                    userMap. put("address", addressEditText.getText().toString());
+                    userMap. put("phoneOrder", userPhoneEditText.getText().toString());
+                    userMap. put("image", myUrl);
+                    ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+                    progressDialog.dismiss();
+                    startActivity(new Intent(SettinsActivity.this, HomeActivity.class));
+                    Toast.makeText(SettinsActivity.this, "Profile Info update successfully.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(SettinsActivity.this, "Error.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -210,15 +191,15 @@ public class SettinsActivity extends AppCompatActivity {
         DatabaseReference UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(Prevalent.currentOnlineUser.getPhone());
         UsersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
                 {
                     if (dataSnapshot.child("image").exists())
                     {
-                        String image = dataSnapshot.child("image").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String phone = dataSnapshot.child("phone").getValue().toString();
-                        String address = dataSnapshot.child("address").getValue().toString();
+                        String image = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                        String name = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                        String phone = Objects.requireNonNull(dataSnapshot.child("phone").getValue()).toString();
+                        String address = Objects.requireNonNull(dataSnapshot.child("address").getValue()).toString();
                         Picasso.get().load(image).into(profileImageView);
                         fullNameEditText.setText(name);
                         userPhoneEditText.setText(phone);
@@ -229,7 +210,7 @@ public class SettinsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

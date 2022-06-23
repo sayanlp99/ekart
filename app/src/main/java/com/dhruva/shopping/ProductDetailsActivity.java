@@ -49,17 +49,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDescription = findViewById(R.id.product_description_details);
         productPrice = findViewById(R.id.product_price_details);
         getProductDetails(productID);
-        addToCartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addToCartButton.setOnClickListener(view -> {
 
-                if (state.equals("Order Placed") || state.equals("Order Shipped")){
-                    Toast.makeText(ProductDetailsActivity.this,"You can add Purchase more product, once your order is shipped or confirmed",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    addingToCartList();
-                }
+            if (state.equals("Order Placed") || state.equals("Order Shipped")){
+                Toast.makeText(ProductDetailsActivity.this,"You can add Purchase more product, once your order is shipped or confirmed",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                addingToCartList();
             }
         });
     }
@@ -93,24 +90,18 @@ public class ProductDetailsActivity extends AppCompatActivity {
             cartMap.put("quantity",numberButton.getNumber());
             cartMap.put("discount","");
 
-            cartListRef.child("User view").child(Prevalent.currentOnlineUser.getPhone()).child("Products").child(productID).updateChildren(cartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
-                        cartListRef.child("Admin view").child(Prevalent.currentOnlineUser.getPhone())
-                                .child("Products").child(productID)
-                                .updateChildren(cartMap)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
-                                            Toast.makeText(ProductDetailsActivity.this,"Added to cart List",Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ProductDetailsActivity.this,HomeActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-                    }
+            cartListRef.child("User view").child(Prevalent.currentOnlineUser.getPhone()).child("Products").child(productID).updateChildren(cartMap).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    cartListRef.child("Admin view").child(Prevalent.currentOnlineUser.getPhone())
+                            .child("Products").child(productID)
+                            .updateChildren(cartMap)
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    Toast.makeText(ProductDetailsActivity.this, "Added to cart List", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ProductDetailsActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
                 }
             });
         }
@@ -123,10 +114,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference().child("Products");
         productsRef.child(productID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     Products products=dataSnapshot.getValue(Products.class);
-                    productName.setText(products.getPname());
+                    productName.setText(Objects.requireNonNull(products).getPname());
                     productPrice.setText(products.getPrice());
                     productDescription.setText(products.getDescription());
                     Picasso.get().load(products.getImage()).into(productImage);
@@ -135,7 +126,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -149,9 +140,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         ordersRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());
         ordersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    String shippingState = dataSnapshot.child("state").getValue().toString();
+                    String shippingState = Objects.requireNonNull(dataSnapshot.child("state").getValue()).toString();
                     if (shippingState.equals("Shipped")){
                         state ="Order Shipped";
                     }
@@ -162,7 +153,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

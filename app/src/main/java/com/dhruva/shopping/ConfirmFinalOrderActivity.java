@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dhruva.shopping.Model.Users;
 import com.dhruva.shopping.Prevalent.Prevalent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -48,12 +47,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.shippment_address);
         pinCodeEditText = findViewById(R.id.pin_code);
         cityEditText = findViewById(R.id.shippment_city);
-        confirmOrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Check();
-            }
-        });
+        confirmOrderBtn.setOnClickListener(view -> Check());
     }
 
     private void Check() {
@@ -122,28 +116,22 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                 Toast.makeText(ConfirmFinalOrderActivity.this,"Failed to retrieve pin code count",Toast.LENGTH_SHORT).show();
             }
         });
-        ordersRef.updateChildren(ordersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    FirebaseDatabase.getInstance().getReference()
-                            .child("Cart List")
-                            .child("User view")
-                            .child(Prevalent.currentOnlineUser.getPhone())
-                            .removeValue()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(ConfirmFinalOrderActivity.this,"Your final Order has been placed successfully.",Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(ConfirmFinalOrderActivity.this,HomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }
-                            });
-                }
+        ordersRef.updateChildren(ordersMap).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                FirebaseDatabase.getInstance().getReference()
+                        .child("Cart List")
+                        .child("User view")
+                        .child(Prevalent.currentOnlineUser.getPhone())
+                        .removeValue()
+                        .addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(ConfirmFinalOrderActivity.this, "Your final Order has been placed successfully.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ConfirmFinalOrderActivity.this, HomeActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
             }
         });
 

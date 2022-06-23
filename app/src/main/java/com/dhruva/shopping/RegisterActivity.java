@@ -36,12 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         InputPassword = findViewById(R.id.register_password_input);
         InputPhoneNumber = findViewById(R.id.register_phone_number_input);
         loadingBar = new ProgressDialog(this);
-        CreateAccountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CreateAccount();
-            }
-        });
+        CreateAccountButton.setOnClickListener(view -> CreateAccount());
     }
     private void CreateAccount(){
         String name = InputName.getText().toString();
@@ -76,28 +71,25 @@ public class RegisterActivity extends AppCompatActivity {
         RootRef = FirebaseDatabase.getInstance().getReference();
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!(dataSnapshot.child("Users").child(phone).exists())){
                     HashMap<String, Object> userdataMap = new HashMap<>();
                     userdataMap.put("phone", phone);
                     userdataMap.put("password", password);
                     userdataMap.put("name", name);
-                    RootRef.child("Users").child(phone).updateChildren(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                    RootRef.child("Users").child(phone).updateChildren(userdataMap).addOnCompleteListener(task -> {
 
-                            if (task.isSuccessful())
-                            {
-                                Toast.makeText(RegisterActivity.this, "Congratulations, your account has been created.", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
-                                Intent intent = new Intent(RegisterActivity.this, com.dhruva.shopping.LoginActivity.class);
-                                startActivity(intent);
-                            }
-                            else
-                            {
-                                loadingBar.dismiss();
-                                Toast.makeText(RegisterActivity.this, "Network Error: Please try again after some time...", Toast.LENGTH_SHORT).show();
-                            }
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(RegisterActivity.this, "Congratulations, your account has been created.", Toast.LENGTH_SHORT).show();
+                            loadingBar.dismiss();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            loadingBar.dismiss();
+                            Toast.makeText(RegisterActivity.this, "Network Error: Please try again after some time...", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -114,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

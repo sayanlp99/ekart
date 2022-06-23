@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CartActivity extends AppCompatActivity{
     private LinearLayout shippingPriorityLayout;
@@ -69,82 +69,69 @@ public class CartActivity extends AppCompatActivity{
         shippingPriorityGroup = findViewById(R.id.shipping_priority_group);
         datePicker= findViewById(R.id.priority_shipment_date_picker);
         shippingPriorityGroup.clearCheck();
-        shippingPriorityGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId){
-                switch(checkedId){
-                    case R.id.shipping_priority_option2:
-                        deliveryOption = "2";
-                        break;
-                    case R.id.shipping_priority_option3:
-                        deliveryOption = "3";
-                        break;
-                    case R.id.shipping_priority_option4:
-                        deliveryOption = "4";
-                        break;
-                    case R.id.shipping_priority_option5:
-                        deliveryOption = "5";
-                        break;
-                }
-                datePicker.getText().clear();
+        shippingPriorityGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch(checkedId){
+                case R.id.shipping_priority_option2:
+                    deliveryOption = "2";
+                    break;
+                case R.id.shipping_priority_option3:
+                    deliveryOption = "3";
+                    break;
+                case R.id.shipping_priority_option4:
+                    deliveryOption = "4";
+                    break;
+                case R.id.shipping_priority_option5:
+                    deliveryOption = "5";
+                    break;
             }
+            datePicker.getText().clear();
         });
-        NextProcessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (shippingPriorityGroup.isSelected() || datePicker.getText().length() != 0){
-                    switch (deliveryOption){
-                        case "1":
-                            overTotalPrice = overTotalPrice + 80;
-                            break;
-                        case "2":
-                            overTotalPrice = overTotalPrice + 50;
-                            break;
-                        case "3":
-                            overTotalPrice = overTotalPrice + 30;
-                            break;
-                        case "4":
-                            overTotalPrice = overTotalPrice + 20;
-                            break;
-                        case "5":
-                            overTotalPrice = overTotalPrice + 10;
-                            break;
-                    }
-                    txtTotalAmount.setText("Total Price = Rs."+ overTotalPrice);
-                    Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
-                    intent.putExtra("Total Price", String.valueOf(overTotalPrice));
-                    intent.putExtra("Shipping priority", deliveryOption);
-                    intent.putExtra("Shipping Date", finalDate);
-                    startActivity(intent);
-                    finish();
+        NextProcessBtn.setOnClickListener(view -> {
+            if (shippingPriorityGroup.isSelected() || datePicker.getText().length() != 0){
+                switch (deliveryOption){
+                    case "1":
+                        overTotalPrice = overTotalPrice + 80;
+                        break;
+                    case "2":
+                        overTotalPrice = overTotalPrice + 50;
+                        break;
+                    case "3":
+                        overTotalPrice = overTotalPrice + 30;
+                        break;
+                    case "4":
+                        overTotalPrice = overTotalPrice + 20;
+                        break;
+                    case "5":
+                        overTotalPrice = overTotalPrice + 10;
+                        break;
                 }
-                else{
-                    Toast.makeText(CartActivity.this,"Select Delivery Options",Toast.LENGTH_SHORT).show();
-                }
+                txtTotalAmount.setText("Total Price = Rs."+ overTotalPrice);
+                Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
+                intent.putExtra("Total Price", String.valueOf(overTotalPrice));
+                intent.putExtra("Shipping priority", deliveryOption);
+                intent.putExtra("Shipping Date", finalDate);
+                startActivity(intent);
+                finish();
+            }
+            else{
+                Toast.makeText(CartActivity.this,"Select Delivery Options",Toast.LENGTH_SHORT).show();
+            }
 
-            }
         });
-        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH,month);
-                myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                updateLabel();
-            }
+        DatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH,month);
+            myCalendar.set(Calendar.DAY_OF_MONTH,day);
+            updateLabel();
         };
         long now = myCalendar.getTimeInMillis();
         DatePickerDialog datePickerDialog = new DatePickerDialog(CartActivity.this,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.getDatePicker().setMinDate(now + (86400000));
         datePickerDialog.getDatePicker().setMaxDate(now + (86400000*5));
-        datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shippingPriorityGroup.clearCheck();
-                deliveryOption = "1";
-                datePickerDialog.show();
-            }
+        datePicker.setOnClickListener(view -> {
+            shippingPriorityGroup.clearCheck();
+            deliveryOption = "1";
+            datePickerDialog.show();
         });
     }
 
@@ -175,45 +162,36 @@ public class CartActivity extends AppCompatActivity{
                 int oneTyprProductTPrice = ((Integer.valueOf(model.getPrice())))* Integer.valueOf(model.getQuantity());
                 overTotalPrice = overTotalPrice + oneTyprProductTPrice;
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        CharSequence[] options = new CharSequence[]
-                                {
-                                        "Edit",
-                                        "Remove"
-                                };
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
-                        builder.setTitle("Cart Options: ");
-                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (i==0){
-                                    Intent intent = new Intent(CartActivity.this,ProductDetailsActivity.class);
-                                    intent.putExtra("pid", model.getPid());
-                                    startActivity(intent);
-                                }
-                                if (i==1){
-                                    cartListRef.child("User view")
-                                            .child(Prevalent.currentOnlineUser.getPhone())
-                                            .child("Products")
-                                            .child(model.getPid())
-                                            .removeValue()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()){
-                                                        Toast.makeText(CartActivity.this,"Item removed Successfully.",Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(CartActivity.this,HomeActivity.class);
-                                                        startActivity(intent);
-                                                    }
-                                                }
-                                            });
-                                }
-                            }
-                        });
-                        builder.show();
-                    }
+                holder.itemView.setOnClickListener(view -> {
+                    CharSequence[] options1 = new CharSequence[]
+                            {
+                                    "Edit",
+                                    "Remove"
+                            };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                    builder.setTitle("Cart Options: ");
+                    builder.setItems(options1, (dialogInterface, i) -> {
+                        if (i == 0) {
+                            Intent intent = new Intent(CartActivity.this, ProductDetailsActivity.class);
+                            intent.putExtra("pid", model.getPid());
+                            startActivity(intent);
+                        }
+                        if (i == 1) {
+                            cartListRef.child("User view")
+                                    .child(Prevalent.currentOnlineUser.getPhone())
+                                    .child("Products")
+                                    .child(model.getPid())
+                                    .removeValue()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(CartActivity.this, "Item removed Successfully.", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+                        }
+                    });
+                    builder.show();
                 });
             }
 
@@ -234,10 +212,10 @@ public class CartActivity extends AppCompatActivity{
         ordersRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());
         ordersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    String shippingState = dataSnapshot.child("state").getValue().toString();
-                    String userName = dataSnapshot.child("name").getValue().toString();
+                    String shippingState = Objects.requireNonNull(dataSnapshot.child("state").getValue()).toString();
+                    String userName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
                     if (shippingState.equals("Shipped")){
                         txtTotalAmount.setText("TDear "+userName+"\n order is shipped successfully.");
                         recyclerView.setVisibility(View.GONE);
@@ -260,7 +238,7 @@ public class CartActivity extends AppCompatActivity{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
