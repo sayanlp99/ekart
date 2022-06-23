@@ -42,17 +42,25 @@ public class RegisterActivity extends AppCompatActivity {
         String name = InputName.getText().toString();
         String phone = InputPhoneNumber.getText().toString();
         String password = InputPassword.getText().toString();
+        System.out.println(phone.length());
         if (TextUtils.isEmpty(name))
         {
-            Toast.makeText(this, "Please write your name...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your name...", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(phone) || phone.length() != 10)
+        else if (TextUtils.isEmpty(phone))
         {
+            Toast.makeText(this, "Please enter your phone number", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(phone.length() >= 10) || !(phone.length() <= 13)){
             Toast.makeText(this, "Please check phone number", Toast.LENGTH_SHORT).show();
         }
         else if (TextUtils.isEmpty(password) || password.length() < 8)
         {
             Toast.makeText(this, "Please enter password greater than 8 characters", Toast.LENGTH_SHORT).show();
+        }
+        else if (phone.equals(password))
+        {
+            Toast.makeText(this, "Phone no and password can't be same", Toast.LENGTH_SHORT).show();
         }
         else
         {
