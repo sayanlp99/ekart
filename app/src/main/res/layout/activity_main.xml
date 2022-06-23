@@ -3,31 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login11"
+    android:background="@drawable/login12"
     tools:context=".MainActivity">
-
-    <ImageView
-        android:id="@+id/app_logo"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/aaaaa"
-        android:contentDescription="TODO" />
-    <TextView
-        android:id="@+id/app_slogan"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="80dp"
-        android:layout_marginTop="142dp"
-        android:text="Find, Discover, Choose and Buy anything online."
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        />
 
     <Button
         android:id="@+id/join_later_button"

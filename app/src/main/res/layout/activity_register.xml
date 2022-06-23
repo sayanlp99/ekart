@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login11"
     tools:context=".RegisterActivity">
 
     <ImageView
         android:id="@+id/register_applogo"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:src="@drawable/aaaaa"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        android:paddingBottom="20dp"
+        android:src="@drawable/app_logo_12" />
 
     <EditText
         android:id="@+id/register_username_input"

@@ -51,7 +51,7 @@ public class CartActivity extends AppCompatActivity{
     private EditText datePicker;
     private int overTotalPrice=0;
     private RadioGroup shippingPriorityGroup;
-    private String deliveryOption;
+    private String deliveryOption, shippingPrice, onlyProductPrice;
     private String finalDate;
     final Calendar myCalendar= Calendar.getInstance();
     @Override
@@ -88,30 +88,37 @@ public class CartActivity extends AppCompatActivity{
         });
         NextProcessBtn.setOnClickListener(view -> {
             if (shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option2 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option3 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option4 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option5 || datePicker.getText().length() != 0){
+                onlyProductPrice = String.valueOf(overTotalPrice);
                 switch (deliveryOption){
                     case "1":
                         overTotalPrice = overTotalPrice + 80;
+                        shippingPrice = "80";
                         break;
                     case "2":
                         overTotalPrice = overTotalPrice + 50;
+                        shippingPrice = "50";
                         break;
                     case "3":
                         overTotalPrice = overTotalPrice + 30;
+                        shippingPrice = "30";
                         break;
                     case "4":
                         overTotalPrice = overTotalPrice + 20;
+                        shippingPrice = "20";
                         break;
                     case "5":
                         overTotalPrice = overTotalPrice + 10;
+                        shippingPrice = "10";
                         break;
                 }
                 txtTotalAmount.setText("Total Price = Rs."+ overTotalPrice);
-                Intent intent = new Intent(CartActivity.this,ConfirmFinalOrderActivity.class);
+                Intent intent = new Intent(CartActivity.this,ShippingChargesActivity.class);
                 intent.putExtra("Total Price", String.valueOf(overTotalPrice));
                 intent.putExtra("Shipping priority", deliveryOption);
                 intent.putExtra("Shipping Date", finalDate);
+                intent.putExtra("Shipping Price", shippingPrice);
+                intent.putExtra("Product Price", onlyProductPrice);
                 startActivity(intent);
-                finish();
             }
             else{
                 Toast.makeText(CartActivity.this,"Select Delivery Options",Toast.LENGTH_SHORT).show();

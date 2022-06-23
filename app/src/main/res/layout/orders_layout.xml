@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_margin="10dp"
-        android:background="@color/colorOnSecondary"
+        android:background="#FFDEAD"
         >
         <TextView
             android:id="@+id/order_user_name"
@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:text="User Name"
             android:textSize="15dp"
-            android:textColor="@android:color/white"
             android:layout_marginLeft="2dp"
             android:textStyle="bold"
             />
@@ -37,7 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total Price"
-            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="35dp"
@@ -48,7 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Address,City"
-            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:layout_below="@+id/order_total_price"
             android:gravity="center"
@@ -63,7 +60,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Date Time"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -74,7 +70,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Order Priority"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
@@ -84,7 +79,6 @@
             android:layout_below="@+id/order_priority"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@android:color/white"
             android:text="Show User Order Product"
             android:textColor="#FFFFFFFF"
             android:textSize="20dp"
