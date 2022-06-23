@@ -127,7 +127,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                             if (task1.isSuccessful()) {
                                 Toast.makeText(ConfirmFinalOrderActivity.this, "Your final Order has been placed successfully.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(ConfirmFinalOrderActivity.this, HomeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
                             }

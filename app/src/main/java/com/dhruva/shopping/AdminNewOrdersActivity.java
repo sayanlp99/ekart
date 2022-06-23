@@ -50,7 +50,6 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                     protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, @SuppressLint("RecyclerView") final int position, @NonNull final AdminOrders model) {
 
                         holder.userName.setText("Name: "+model.getName());
-                        holder.userPhoneNumber.setText("Name: "+model.getPhone());
                         holder.userTotalPrice.setText("Total Ammount = Rs."+model.getTotalAmount());
                         holder.userDateTime.setText("Order at: "+model.getDate()+" "+ model.getTime());
                         holder.userShippingAddress.setText("Shipping Address: "+model.getAddress()+", "+model.getCity());
@@ -108,7 +107,6 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
         public AdminOrdersViewHolder(View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.order_user_name);
-            userPhoneNumber = itemView.findViewById(R.id.order_phone_number);
             userTotalPrice = itemView.findViewById(R.id.order_total_price);
             userDateTime = itemView.findViewById(R.id.order_date_time);
             userShippingAddress = itemView.findViewById(R.id.order_address_city);

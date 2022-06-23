@@ -87,7 +87,7 @@ public class CartActivity extends AppCompatActivity{
             datePicker.getText().clear();
         });
         NextProcessBtn.setOnClickListener(view -> {
-            if (shippingPriorityGroup.isSelected() || datePicker.getText().length() != 0){
+            if (shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option2 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option3 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option4 || shippingPriorityGroup.getCheckedRadioButtonId() == R.id.shipping_priority_option5 || datePicker.getText().length() != 0){
                 switch (deliveryOption){
                     case "1":
                         overTotalPrice = overTotalPrice + 80;
@@ -218,18 +218,18 @@ public class CartActivity extends AppCompatActivity{
                     String userName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
                     if (shippingState.equals("Shipped")){
                         txtTotalAmount.setText("TDear "+userName+"\n order is shipped successfully.");
-                        recyclerView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.INVISIBLE);
                         txtMsg1.setVisibility(View.VISIBLE);
                         txtMsg1.setText("Congratulations, Your Final order has been shipped successfully. Soon you will received your order at your door step.");
                         NextProcessBtn.setVisibility(View.INVISIBLE);
-                        shippingPriorityLayout.setVisibility(View.GONE);
+                        shippingPriorityLayout.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
                     }
                     else if (shippingState.equals("Not Shipped")){
                         txtTotalAmount.setText("Shipping State = Not Shipped");
-                        recyclerView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.INVISIBLE);
                         txtMsg1.setVisibility(View.VISIBLE);
-                        shippingPriorityLayout.setVisibility(View.GONE);
+                        shippingPriorityLayout.setVisibility(View.INVISIBLE);
 
                         NextProcessBtn.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this,"You can purchase more products, Once you received your first order",Toast.LENGTH_SHORT).show();
