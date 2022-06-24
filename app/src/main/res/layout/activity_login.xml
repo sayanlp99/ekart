@@ -14,21 +14,21 @@
         android:layout_marginTop="50dp"
         android:contentDescription="TODO"
         android:src="@drawable/app_logo_12" />
+
     <EditText
         android:id="@+id/login_phone_number_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_applogo"
-        android:background="@drawable/input_design"
-        android:padding="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:background="@drawable/input_design"
         android:hint="Phone Number"
         android:inputType="number"
+        android:padding="20dp"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"
-        android:textSize="19sp"
-        />
+        android:textSize="19sp" />
     <EditText
         android:id="@+id/login_password_input"
         android:layout_width="match_parent"
@@ -85,16 +85,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linear_layout_1"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/buttons"
         android:padding="15dp"
-        android:textAllCaps="false"
-        android:textSize="18sp"
         android:text="Login"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
-        />
+        android:textSize="18sp" />
 
 
     <TextView

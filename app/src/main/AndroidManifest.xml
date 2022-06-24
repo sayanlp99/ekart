@@ -28,6 +28,9 @@
         <activity android:name="com.dhruva.shopping.AdminAddNewProductActivity" />
         <activity android:name="com.dhruva.shopping.LocalOrdersActivity" />
         <activity android:name="com.dhruva.shopping.ShippingChargesActivity" />
+        <activity android:name="com.dhruva.shopping.ForgetPasswordActivity" />
+        <activity android:name="com.dhruva.shopping.VerifyPasswordOtp" />
+        <activity android:name="com.dhruva.shopping.ChangePasswordActivity" />
         <activity android:name="com.dhruva.shopping.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

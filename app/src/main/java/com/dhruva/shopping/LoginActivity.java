@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText InputPhoneNumber, InputPassword;
     private Button LoginButton;
     private ProgressDialog loadingBar;
-    private TextView AdminLink, NotAdminLink;
+    private TextView AdminLink, NotAdminLink, ForgetPasswordLink;
     private String parentDbName = "Users";
     private CheckBox chkBoxRememberMe;
     @Override
@@ -47,7 +47,11 @@ public class LoginActivity extends AppCompatActivity {
         chkBoxRememberMe = findViewById(R.id.remember_me_chkb);
         Paper.init(this);
         LoginButton.setOnClickListener(view -> LoginUser());
-
+        ForgetPasswordLink = findViewById(R.id.forget_password_link);
+        ForgetPasswordLink.setOnClickListener(v ->{
+            Intent intent = new Intent(LoginActivity.this,ForgetPasswordActivity.class);
+            startActivity(intent);
+        });
         AdminLink.setOnClickListener(view -> {
             LoginButton.setText("Login Admin");
             AdminLink.setVisibility(View.INVISIBLE);
