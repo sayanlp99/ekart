@@ -32,6 +32,7 @@
         <activity android:name="com.dhruva.shopping.ForgetPasswordActivity" />
         <activity android:name="com.dhruva.shopping.VerifyPasswordOtp" />
         <activity android:name="com.dhruva.shopping.ChangePasswordActivity" />
+        <activity android:name="com.dhruva.shopping.MyOrdersActivity" />
         <activity android:name="com.dhruva.shopping.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

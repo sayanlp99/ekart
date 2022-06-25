@@ -73,7 +73,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void sendOtpForVerification(int otp, String phoneNumber) {
-        httpCall("https://www.fast2sms.com/dev/bulkV2?authorization=&route=q&message=My%20Odisha%20OTP%20for%20password%20change%20is%20"+String.valueOf(otp)+"&language=english&flash=0&numbers="+phoneNumber);
+        httpCall("https://www.fast2sms.com/dev/bulkV2?authorization=6uo4tHfGcPUA2p91TRMdkYwWX7xhOS3sNybZqvF85neKCJBga0bmETzcgR4nQjK3BWCJqXDas7i5UyId&route=q&message=My%20Odisha%20OTP%20for%20password%20change%20is%20"+String.valueOf(otp)+"&language=english&flash=0&numbers="+phoneNumber);
     }
 
     public void httpCall(String url) {
