@@ -15,10 +15,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpResponse;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpGet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import okhttp3.internal.http.StatusLine;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
     private final String CHANNEL_ID="Notification";
@@ -40,8 +50,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.child("Users").child(phone).exists()){
                             otp = generateOtp();
-                            createNotificationChannel();
-                            showOtp(otp);
+                            sendOtpForVerification(otp, phone);
                             Intent intent = new Intent(ForgetPasswordActivity.this,VerifyPasswordOtp.class);
                             intent.putExtra("generated_otp", String.valueOf(otp));
                             intent.putExtra("phone", phone);
@@ -63,36 +72,26 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         });
     }
 
-    private void showOtp(int otp) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ayush)
-                .setContentTitle(String.valueOf(otp))
-                .setShowWhen(true)
-                .setAutoCancel(true)
-                .setContentText("OTP for password change")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    private void sendOtpForVerification(int otp, String phoneNumber) {
+        httpCall("https://www.fast2sms.com/dev/bulkV2?authorization=&route=q&message=My%20Odisha%20OTP%20for%20password%20change%20is%20"+String.valueOf(otp)+"&language=english&flash=0&numbers="+phoneNumber);
+    }
+
+    public void httpCall(String url) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                }, error -> {
+                });
+
+        queue.add(stringRequest);
     }
 
     int generateOtp(){
         return (1000 + (int)(Math.random() * ((9999 - 1000) + 1)));
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notification";
-            String description = "1";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
+
 
 }
