@@ -58,6 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Please enter password greater than 8 characters", Toast.LENGTH_SHORT).show();
         }
+        else if (isAlphaNumeric(password) ) {
+            Toast.makeText(this, "Please enter password with a combination with alphabets and numbers and special characters", Toast.LENGTH_SHORT).show();
+        }
         else if (phone.equals(password))
         {
             Toast.makeText(this, "Phone no and password can't be same", Toast.LENGTH_SHORT).show();
@@ -72,6 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
             ValidatephoneNumber(name, phone, password);
         }
 
+    }
+
+    public static boolean isAlphaNumeric(String s) {
+        return s != null && s.matches("^[a-zA-Z0-9]+$");
     }
 
     private void ValidatephoneNumber(final String name, final String phone,final String password) {
