@@ -16,61 +16,47 @@ import com.dhruva.shopping.Model.MyOrders;
 import com.dhruva.shopping.Prevalent.Prevalent;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class MyOrdersActivity extends AppCompatActivity {
     private RecyclerView ordersList;
     private DatabaseReference ordersRef;
+    TextView orderDate, orderAmount,OrderAddress, pincode, productStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_orders);
-        ordersRef = FirebaseDatabase.getInstance().getReference().child("Cart List").child("User view").child(Prevalent.currentOnlineUser.getPhone()).child("Products");
-        ordersList = findViewById(R.id.my_orders_list);
-        ordersList.setLayoutManager(new LinearLayoutManager(this));
+        orderDate = findViewById(R.id.my_order_date);
+        orderAmount = findViewById(R.id.my_order_amount);
+        OrderAddress = findViewById(R.id.my_order_address);
+        pincode = findViewById(R.id.my_order_pincode);
+        productStatus = findViewById(R.id.my_order_state);
+        ordersRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());
+        ordersRef.addListenerForSingleValueEvent(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                MyOrders myorders = snapshot.getValue(MyOrders.class);
+                orderDate.setText(Objects.requireNonNull(myorders).getDate());
+                orderAmount.setText("Rs. " + myorders.getTotalAmount() + "/-");
+                OrderAddress.setText(myorders.getAddress());
+                pincode.setText(myorders.getPincode());
+                productStatus.setText(myorders.getState());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseRecyclerOptions<MyOrders> options=
-                new FirebaseRecyclerOptions.Builder<MyOrders>()
-                        .setQuery(ordersRef, MyOrders.class)
-                        .build();
-        FirebaseRecyclerAdapter<MyOrders, MyOrdersActivity.MyOrdersViewHolder> adapter =
-                new FirebaseRecyclerAdapter<MyOrders, MyOrdersActivity.MyOrdersViewHolder>(options) {
-                    @NonNull
-                    @Override
-                    public MyOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_order_items,parent,false);
-                        return new MyOrdersViewHolder(view);
-                    }
-
-                    @Override
-                    protected void onBindViewHolder(@NonNull MyOrdersActivity.MyOrdersViewHolder holder, @SuppressLint("RecyclerView") final int position, @NonNull final MyOrders model) {
-                        holder.orderName.setText(model.getPname());
-                        holder.orderDateTime.setText(model.getPid());
-                        holder.orderPrice.setText("Price: "+model.getPrice());
-                        holder.orderProductQuantity.setText("Quantity: "+model.getQuantity());
-
-                    }
-                };
-        ordersList.setAdapter(adapter);
-        adapter.startListening();
-    }
-
-    public static class MyOrdersViewHolder extends RecyclerView.ViewHolder{
-
-        public TextView orderName, orderDateTime, orderPrice, orderProductQuantity;
-        public MyOrdersViewHolder(View itemView) {
-            super(itemView);
-            orderName = itemView.findViewById(R.id.my_order_name);
-            orderDateTime = itemView.findViewById(R.id.my_order_date_time);
-            orderPrice = itemView.findViewById(R.id.my_order_price);
-            orderProductQuantity = itemView.findViewById(R.id.product_quantity);
-        }
-    }
 }
 
