@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login12"
+    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="452dp"
+        android:layout_height="208dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="17dp"
+        android:src="@drawable/app_logo_12" />
 
     <Button
         android:id="@+id/join_later_button"
